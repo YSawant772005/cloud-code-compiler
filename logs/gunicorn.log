@@ -1,0 +1,40 @@
+nohup: ignoring input
+[2026-03-28 18:38:43 +0000] [12184] [INFO] Starting gunicorn 23.0.0
+[2026-03-28 18:38:43 +0000] [12184] [INFO] Listening at: http://0.0.0.0:5000 (12184)
+[2026-03-28 18:38:43 +0000] [12184] [INFO] Using worker: sync
+[2026-03-28 18:38:43 +0000] [12185] [INFO] Booting worker with pid: 12185
+[2026-03-28 18:38:43 +0000] [12186] [INFO] Booting worker with pid: 12186
+[2026-03-28 18:38:43 +0000] [12187] [INFO] Booting worker with pid: 12187
+/home/ec2-user/.local/lib/python3.9/site-packages/boto3/compat.py:89: PythonDeprecationWarning: Boto3 will no longer support Python 3.9 starting April 29, 2026. To continue receiving service updates, bug fixes, and security updates please upgrade to Python 3.10 or later. More information can be found here: https://aws.amazon.com/blogs/developer/python-support-policy-updates-for-aws-sdks-and-tools/
+  warnings.warn(warning, PythonDeprecationWarning)
+/home/ec2-user/.local/lib/python3.9/site-packages/boto3/compat.py:89: PythonDeprecationWarning: Boto3 will no longer support Python 3.9 starting April 29, 2026. To continue receiving service updates, bug fixes, and security updates please upgrade to Python 3.10 or later. More information can be found here: https://aws.amazon.com/blogs/developer/python-support-policy-updates-for-aws-sdks-and-tools/
+  warnings.warn(warning, PythonDeprecationWarning)
+INFO:botocore.credentials:Found credentials from IAM Role: code-compiler-cloudwatch-role
+INFO:botocore.credentials:Found credentials from IAM Role: code-compiler-cloudwatch-role
+/home/ec2-user/.local/lib/python3.9/site-packages/boto3/compat.py:89: PythonDeprecationWarning: Boto3 will no longer support Python 3.9 starting April 29, 2026. To continue receiving service updates, bug fixes, and security updates please upgrade to Python 3.10 or later. More information can be found here: https://aws.amazon.com/blogs/developer/python-support-policy-updates-for-aws-sdks-and-tools/
+  warnings.warn(warning, PythonDeprecationWarning)
+INFO:botocore.credentials:Found credentials from IAM Role: code-compiler-cloudwatch-role
+INFO:app:CloudWatch logging initialized
+INFO:app:CloudWatch logging initialized
+INFO:app:CloudWatch logging initialized
+ERROR:app:Exception on /login [POST]
+Traceback (most recent call last):
+  File "/home/ec2-user/.local/lib/python3.9/site-packages/flask/app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/ec2-user/.local/lib/python3.9/site-packages/flask/app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/ec2-user/.local/lib/python3.9/site-packages/flask_cors/extension.py", line 176, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/home/ec2-user/.local/lib/python3.9/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ec2-user/.local/lib/python3.9/site-packages/flask/app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+  File "/home/ec2-user/code-compiler/app/auth.py", line 59, in login
+    if not user or not bcrypt.checkpw(
+ValueError: Invalid salt
+[2026-03-28 18:48:53 +0000] [12185] [INFO] Worker exiting (pid: 12185)
+[2026-03-28 18:48:53 +0000] [12184] [INFO] Handling signal: term
+[2026-03-28 18:48:53 +0000] [12187] [INFO] Worker exiting (pid: 12187)
+[2026-03-28 18:48:53 +0000] [12186] [INFO] Worker exiting (pid: 12186)
+[2026-03-28 18:48:53 +0000] [12184] [ERROR] Worker (pid:12187) was sent SIGTERM!
+[2026-03-28 18:48:53 +0000] [12184] [INFO] Shutting down: Master

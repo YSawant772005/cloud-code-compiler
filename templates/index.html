@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Cloud Code Compiler</title>
+  <style>
+    body { font-family: Arial; background: #111; color: #fff; }
+    textarea { width: 100%; height: 200px; }
+    button { padding: 10px; margin-top: 10px; }
+    pre { background: #222; padding: 10px; }
+  </style>
+</head>
+
+<body>
+  <h1>🚀 Code Compiler</h1>
+
+  <select id="language">
+    <option value="python">Python</option>
+  </select>
+
+  <br><br>
+
+  <textarea id="code">print("Hello World")</textarea>
+
+  <br>
+
+  <button onclick="runCode()">Run Code</button>
+
+  <h3>Output:</h3>
+  <pre id="output"></pre>
+
+<script>
+const API_URL = "http://code-compiler-alb-929824399.ap-south-1.elb.amazonaws.com";
+
+// 🚀 MAIN FUNCTION
+async function runCode() {
+  const code = document.getElementById("code").value;
+  const language = document.getElementById("language").value;
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    document.getElementById("output").innerText = "❌ Please set token first";
+    return;
+  }
+
+  document.getElementById("output").innerText = "⏳ Running...";
+
+  try {
+    const res = await fetch(API_URL + "/compile", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + token
+      },
+      body: JSON.stringify({ language, code })
+    });
+
+    const data = await res.json();
+    console.log("Compile response:", data);
+
+    if (!data.job_id) {
+      document.getElementById("output").innerText = "❌ Error: " + JSON.stringify(data);
+      return;
+    }
+
+    pollResult(data.job_id, token);
+
+  } catch (err) {
+    console.error(err);
+    document.getElementById("output").innerText = "❌ Server error";
+  }
+}
+
+// 🔁 POLLING FUNCTION
+async function pollResult(job_id, token) {
+  const interval = setInterval(async () => {
+    try {
+      const res = await fetch(API_URL + "/result/" + job_id, {
+        method: "GET",
+        headers: {
+          "Authorization": "Bearer " + token
+        }
+      });
+
+      const data = await res.json();
+      console.log("Result response:", data);
+
+      if (data.status === "success") {
+        document.getElementById("output").innerText = data.stdout || "No output";
+        clearInterval(interval);
+      }
+
+      if (data.status === "error") {
+        document.getElementById("output").innerText = data.stderr || "Error occurred";
+        clearInterval(interval);
+      }
+
+    } catch (err) {
+      console.error("Polling error:", err);
+    }
+  }, 2000);
+}
+</script>
+
+</body>
+</html>
